@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from textblob import TextBlob
 import re
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 from streamlit_lottie import st_lottie
 import json
 
@@ -87,7 +87,7 @@ Esta aplicación utiliza TextBlob para realizar un análisis básico de texto:
 - Análisis de frecuencia de palabras
 """)
 
-st.sidebar.title("📙 Opciones")
+st.sidebar.title("Opciones")
 
 modo = st.sidebar.selectbox(
     "Selecciona el modo de entrada:",
@@ -127,16 +127,11 @@ def contar_palabras(texto):
     )
     return contador_ordenado
 
-translator = Translator()
+translator = GoogleTranslator(source='es', target='en')
 
 def traducir_texto(texto):
     try:
-        traduccion = translator.translate(
-            texto,
-            src='es',
-            dest='en'
-        )
-        return traduccion.text
+        return translator.translate(texto)
     except Exception as e:
         st.error(f"Error al traducir: {e}")
         return texto
@@ -295,6 +290,6 @@ with st.expander("📚 Información sobre el análisis"):
 streamlit
 textblob
 pandas
-googletrans==4.0.0rc1
+deep-translator
 streamlit-lottie
 """)
